@@ -1,0 +1,29 @@
+[Unit]
+Description=Wu v3 jetson-side robot process
+Documentation=file:/home/unitree/dimos/hybrid/jetson_robot.py
+After=network-online.target wu-network.service
+Wants=network-online.target
+Requires=wu-network.service
+
+[Service]
+Type=simple
+User=unitree
+Group=unitree
+Environment=HOME=/home/unitree
+Environment=ROBOT_IP=192.168.123.161
+Environment=LCM_DEFAULT_URL=udpm://239.255.76.67:7667?ttl=1
+WorkingDirectory=/home/unitree/dimos
+# jetson_robot.py opens a y/n prompt on first run about accepting a license/EULA —
+# pipe 'y' to stdin so the systemd-managed run doesn't block on it.
+ExecStart=/bin/bash -c 'echo y | /home/unitree/dimos/.venv/bin/python hybrid/jetson_robot.py'
+# Important: do NOT Restart=always here.
+# If Wu dies, it should stay dead until we investigate. The killswitch
+# and human oversight are the intended recovery paths, not systemd.
+Restart=no
+TimeoutStopSec=10
+KillMode=mixed
+StandardOutput=append:/var/log/jetson_robot.log
+StandardError=append:/var/log/jetson_robot.log
+
+[Install]
+WantedBy=multi-user.target

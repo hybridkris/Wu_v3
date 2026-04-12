@@ -1,0 +1,15 @@
+[Unit]
+Description=Wu v3 network containment and multicast routes
+Documentation=file:/home/kris/Development/Wu_v3/safety/network_containment.sh
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/opt/wu/network_containment.sh
+RemainAfterExit=yes
+StandardOutput=journal
+StandardError=journal
+
+[Install]
+WantedBy=multi-user.target
