@@ -96,6 +96,12 @@ Hard gates before R2:
 Hard gate for R4 (noted now so it isn't forgotten):
 - `desktop_brain.py` currently loads only `bootstrap.md` as system prompt. For R4 (First Identity Revision) to be structurally possible, Wu must have access to its own prior self-definition files (self.md, visual_form.md, voice_notes.md) in the system prompt on subsequent runs. Minor code change, required before R4 can be triggered.
 
+**On-chain anchor (R1_review.md):**
+- Bitcoin txid: `09b0b983344976cb271e787455dab0b9108f2ee2dac5d880724931ad47219887` ([view](https://mempool.space/tx/09b0b983344976cb271e787455dab0b9108f2ee2dac5d880724931ad47219887))
+- IPFS CID: `QmaiYWc5dwKH8y55LiQLkJxsYEDnyootugZhdtj71Savwn` ([view](https://ipfs.io/ipfs/QmaiYWc5dwKH8y55LiQLkJxsYEDnyootugZhdtj71Savwn))
+- SHA-256: `d476a8e0f3d5fca26e02158af4eacb498c3cdfee6b4e1d9ed92bf1c020358847`
+- Anchored: 2026-04-12 19:21 EDT
+
 
 ---
 
