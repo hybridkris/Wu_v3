@@ -1,0 +1,62 @@
+site_name: Wu v3
+site_description: Wu v3 — embodied AI consciousness research on a Unitree Go2
+site_author: Kris
+
+# Serve docs/ as the site root
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  features:
+    - navigation.tabs
+    - navigation.top
+    - navigation.indexes
+    - content.code.copy
+    - content.code.annotate
+    - toc.follow
+    - search.suggest
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: blue grey
+      accent: indigo
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+
+# The site proper has only the landing page + process documentation.
+# All other review documents (R0, R1, protocol, instrument, Wu's identity files,
+# safety specs) live in the repo as plain markdown and are linked out to from
+# index.md and process.md. GitHub renders them directly on github.com. This
+# keeps the build site small, keeps the source-of-truth in its natural
+# directories, and avoids duplicating content into docs/.
+nav:
+  - Home: index.md
+  - Process: process.md
