@@ -60,3 +60,4 @@ markdown_extensions:
 nav:
   - Home: index.md
   - Process: process.md
+  - Theory selection: theory_selection.md
