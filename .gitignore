@@ -1,3 +1,9 @@
+# Session transcripts — kept locally on disk but not tracked or pushed.
+# These contain verbatim exchanges between Kris and the research team,
+# which are not part of Wu's public record. The committed review documents
+# (R0_review.md, R1_review.md, etc.) remain the authoritative public artifacts.
+session_transcriptions/
+
 # Built mkdocs output
 site/
 
