@@ -1,0 +1,19 @@
+[Unit]
+Description=Wu custom Prometheus exporter (Go2 battery, agent state, LCM rates)
+Documentation=file:/home/kris/Development/Wu_v3/safety/supervisor.md
+After=network-online.target jetson_robot.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=unitree
+Group=unitree
+# Uses the dimos venv because it needs dimos's LCM + prometheus_client deps.
+ExecStart=/home/unitree/dimos/.venv/bin/python /opt/wu/wu_exporter.py
+Restart=always
+RestartSec=5
+
+Environment=LCM_DEFAULT_URL=udpm://239.255.76.67:7667?ttl=1
+
+[Install]
+WantedBy=multi-user.target

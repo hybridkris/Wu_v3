@@ -1,0 +1,29 @@
+[Unit]
+Description=Wu out-of-band killswitch
+Documentation=file:/home/kris/Development/Wu_v3/safety/supervisor.md
+# IMPORTANT: do NOT add After=jetson_robot.service or similar. The killswitch
+# must survive jetson_robot dying — that's its whole job.
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=killswitch
+Group=killswitch
+ExecStart=/usr/bin/python3 /opt/wu/wu_killswitch.py
+Restart=always
+RestartSec=1
+
+# Hardening: prevent the killswitch from being able to do anything the
+# service doesn't already need.
+NoNewPrivileges=false  # we need sudo elevation for systemctl stop / reboot
+ProtectSystem=strict
+ReadWritePaths=/var/log
+ProtectHome=yes
+PrivateTmp=yes
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectControlGroups=yes
+
+[Install]
+WantedBy=multi-user.target

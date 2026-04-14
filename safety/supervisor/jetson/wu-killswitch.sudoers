@@ -1,0 +1,14 @@
+# /etc/sudoers.d/wu-killswitch
+#
+# Narrow sudoers grant for the wu-killswitch service. Lets the `killswitch`
+# user run EXACTLY these three privileged commands with no password, and
+# nothing else. Validate with `visudo -c -f wu-killswitch.sudoers` before
+# installing.
+#
+# Install:
+#   sudo install -m 0440 wu-killswitch.sudoers /etc/sudoers.d/wu-killswitch
+#   sudo visudo -c  # full sudoers syntax check
+
+killswitch ALL=(root) NOPASSWD: /bin/systemctl stop jetson_robot.service
+killswitch ALL=(root) NOPASSWD: /bin/systemctl stop wu-exporter.service
+killswitch ALL=(root) NOPASSWD: /sbin/reboot
