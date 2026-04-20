@@ -9,6 +9,6 @@
 #   sudo install -m 0440 wu-killswitch.sudoers /etc/sudoers.d/wu-killswitch
 #   sudo visudo -c  # full sudoers syntax check
 
-killswitch ALL=(root) NOPASSWD: /bin/systemctl stop jetson_robot.service
-killswitch ALL=(root) NOPASSWD: /bin/systemctl stop wu-exporter.service
+killswitch ALL=(root) NOPASSWD: /usr/bin/systemctl stop jetson_robot.service
+killswitch ALL=(root) NOPASSWD: /usr/bin/systemctl stop wu-exporter.service
 killswitch ALL=(root) NOPASSWD: /sbin/reboot

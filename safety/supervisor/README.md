@@ -31,11 +31,43 @@ safety/supervisor/
 - **Tegra textfile exporter** — the shell script that parses `tegrastats` and
   emits Prometheus text-format metrics to `/var/lib/node_exporter/textfile_collector/`
   so the Jetson's thermal/GPU stats show up in the node_exporter output.
-- **Go2 battery LCM publisher** — a small modification to
-  `/home/unitree/dimos/hybrid/jetson_robot.py` to subscribe to the Unitree
-  LowState message and publish battery state on the `/go2_battery` LCM
-  channel. Without this, `wu_exporter.py`'s `wu_go2_battery_percent` gauge
-  stays at 0 and low-battery alerts can't fire.
+- **Tegra textfile exporter** (continued) — still unwritten.
+
+The **Go2 battery LCM publisher** is now landed — see
+`hybrid/wu_battery_publisher.py` + the two-line hook in `hybrid/jetson_robot.py`.
+It monkey-patches `GO2Connection.start()` to tee the existing
+`lowstate_stream()` subscription onto `/go2_battery` at 1 Hz. Reuses the
+live WebRTC connection so no second Go2 peer is needed. `wu_exporter.py`
+was already written to consume this channel (see the `/go2_battery`
+branch in `lcm_loop`), so once the hook is deployed and
+`jetson_robot.service` is restarted, `wu_go2_battery_percent` starts
+reporting real values.
+
+Deploy:
+```
+scp hybrid/wu_battery_publisher.py hybrid/jetson_robot.py \
+    unitree@192.168.123.18:/home/unitree/dimos/hybrid/
+ssh unitree@192.168.123.18
+# Back up the existing jetson_robot.py first if you haven't already:
+cp /home/unitree/dimos/hybrid/jetson_robot.py{,.bak}
+# Verify the patched version was copied:
+head -20 /home/unitree/dimos/hybrid/jetson_robot.py
+sudo systemctl restart jetson_robot.service
+# Watch for the install line:
+tail -f /var/log/jetson_robot.log | grep wu_battery_publisher
+```
+
+Expected log lines on successful startup:
+```
+wu_battery_publisher: patch installed on GO2Connection.start
+wu_battery_publisher: attached to lowstate_stream, publishing to /go2_battery
+```
+
+Verify end-to-end from the Pi (or any host that can reach the wu_exporter):
+```
+curl -s http://192.168.123.18:9200/metrics | grep wu_go2_battery_percent
+# → wu_go2_battery_percent 87.0   (or whatever the real SOC is)
+```
 
 ## Deployment order
 

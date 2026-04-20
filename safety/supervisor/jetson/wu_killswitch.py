@@ -64,7 +64,7 @@ from logging.handlers import RotatingFileHandler
 
 KEY_PATH = "/etc/wu/killswitch.key"
 LOG_PATH = "/var/log/wu-killswitch.log"
-BIND_ADDR = ("192.168.123.18", 9300)
+BIND_ADDR = ("0.0.0.0", 9300)
 TS_WINDOW = 60  # seconds — HMAC timestamp drift tolerance
 
 logger = logging.getLogger("killswitch")

@@ -106,15 +106,41 @@ WU_SYSTEM_PROMPT = _load_system_prompt()
 
 
 def _wu_rerun_blueprint():
-    """Wu v3 layout: Go2 camera on the left, 3D world view (MID-360 +
-    Go2 lidar + costmap + planner path) on the right."""
+    """Wu v3 layout: 2x2 grid with camera, Go2 lidar, MID-360 lidar, fused."""
     import rerun.blueprint as rrb
 
     return rrb.Blueprint(
-        rrb.Horizontal(
-            rrb.Spatial2DView(origin="world/color_image", name="Go2 camera"),
-            rrb.Spatial3DView(origin="world", name="3D world"),
-            column_shares=[1, 2],
+        rrb.Grid(
+            rrb.Spatial2DView(
+                origin="world/color_image",
+                name="Go2 camera",
+            ),
+            rrb.Spatial3DView(
+                origin="world",
+                name="Go2 lidar",
+                contents=[
+                    "+ world/lidar/**",
+                    "+ world/pointcloud/**",
+                    "+ world/tf/**",
+                    "+ world/odom/**",
+                    "+ world/global_costmap/**",
+                    "+ world/global_map/**",
+                ],
+            ),
+            rrb.Spatial3DView(
+                origin="world",
+                name="MID-360",
+                contents=[
+                    "+ world/mid360_lidar/**",
+                    "+ world/mid360_imu/**",
+                    "+ world/tf/**",
+                ],
+            ),
+            rrb.Spatial3DView(
+                origin="world",
+                name="Fused 3D",
+            ),
+            grid_columns=2,
         ),
     )
 

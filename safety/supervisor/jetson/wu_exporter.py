@@ -177,7 +177,7 @@ def lcm_loop() -> None:
 # --- main -------------------------------------------------------------------
 
 def main() -> None:
-    start_http_server(9200, addr="192.168.123.18")
+    start_http_server(9200, addr="0.0.0.0")
     threading.Thread(target=poll_loop, daemon=True).start()
     threading.Thread(target=lcm_loop, daemon=True).start()
     while True:
